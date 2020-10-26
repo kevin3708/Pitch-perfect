@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to Pitches
+Thank you for signing up for our application, you are very much welcome to the family. Create your own pitches and feel free to look ever the already existing ones.
