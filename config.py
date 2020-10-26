@@ -17,7 +17,7 @@ class Config:
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://kevin:Password2@localhost/pitches'    
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
 class TestConfig(Config):
