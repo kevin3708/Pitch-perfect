@@ -13,25 +13,28 @@ def index():
   
   return render_template('index.html')
 
-
 @main.route('/pitches/new_pitch',methods = ['GET','POST'])
 @login_required
 def new_pitch():
-  form = PitchForm()
-  
-  if form.validate_on_submit():
-    category =form.category.data
-    pitch =form.pitch.data
-    
-    #pitch instance
-    new_pitch =  Pitch(pitch=pitch,category=category)
-    
-    #save_pitch
-    new_pitch.save_pitch()
-    return redirect(url_for('.new_pitch'))
+    form = PitchForm()
+    if form.validate_on_submit():
+        category =form.category.data
+        pitch =form.pitch.data
+        #pitch instance
+        new_pitch =  Pitch(pitch=pitch,category=category)
+        #save_pitch
+        new_pitch.save_pitch()
+        return redirect(url_for('.new_pitch'))
+        
+    return render_template('new_pitch.html', pitch_form=form ) 
 
-    
-  return render_template('new_pitch.html', pitch_form=form )  
+@main.route('/pitch/<int:id>')
+def single_pitch(id):
+    pitch=Pitch.query.get(id)
+    if pitch is None:
+        abort(404)
+    format_pitch = markdown2.markdown(pitch.pitch,extras=["code-friendly", "fenced-code-blocks"]) 
+    return render_template('single_pitch.html',pitch = pitch,format_pitch=format_pitch)
 
 @main.route('/pitches/comment/<int:pitch_id>',methods = ['GET','POST'])
 @login_required
